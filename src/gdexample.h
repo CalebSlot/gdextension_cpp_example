@@ -13,19 +13,22 @@ private:
 	double time_emit;
     double amplitude;
 	double speed;
+   
+   
+
 protected:
 	static void _bind_methods();
 
 public:
 	GDExample();
 	~GDExample();
-
+    void _ready();
 	void _process(double delta) override;
-
     void set_amplitude(const double p_amplitude);
 	double get_amplitude() const;
 	void set_speed(const double p_speed);
 	double get_speed() const;
+    void OnSprite2DPositionChanged(Object* node,Vector2 new_pos);
 };
 
 }

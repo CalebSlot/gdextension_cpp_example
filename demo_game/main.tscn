@@ -7,7 +7,7 @@
 
 [node name="GDExample" type="GDExample" parent="."]
 speed = 5.38
-position = Vector2(19.8112, 7.55777)
+position = Vector2(19.864, 12.6562)
 texture = ExtResource("1_diqww")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

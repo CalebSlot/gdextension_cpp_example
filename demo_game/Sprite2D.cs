@@ -7,15 +7,19 @@ public partial class Sprite2D : Godot.Sprite2D
 
   
     private double time_passed;
-
+    private double time_emit;
     private Vector2 start_position;
     private Vector2 new_position;
     [Export]
     public float amplitude = 10.0f;
+
+    [Signal]
+    public delegate void position_changedEventHandler(GodotObject node,Vector2 new_pos);
+
     Sprite2D()
     {
-
-        time_passed = 0.0f;
+        time_emit = 0.0;
+        time_passed = 0.0;
         start_position = default(Vector2);
         new_position = default(Vector2);
 
@@ -46,5 +50,12 @@ public partial class Sprite2D : Godot.Sprite2D
         new_position.Y = start_position.Y + (float)(amplitude * Mathf.Cos(time_passed * 1.5));
         Position = new_position;
 
+        time_emit += delta;
+        if (time_emit > 1.0)
+        {
+            EmitSignal(SignalName.position_changed, this, new_position);
+          
+            time_emit = 0.0;
+        }
     }
 }

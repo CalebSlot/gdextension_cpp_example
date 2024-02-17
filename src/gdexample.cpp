@@ -1,6 +1,7 @@
 #include "gdexample.h"
 #include <godot_cpp/core/class_db.hpp>
-
+#include <godot_cpp/godot.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
 using namespace godot;
 
 void GDExample::_bind_methods() {
@@ -14,18 +15,31 @@ void GDExample::_bind_methods() {
 	ClassDB::add_property("GDExample", PropertyInfo(Variant::FLOAT, "speed", PROPERTY_HINT_RANGE, "0,20,0.01"), "set_speed", "get_speed");
 
 	ADD_SIGNAL(MethodInfo("position_changed", PropertyInfo(Variant::OBJECT, "node"), PropertyInfo(Variant::VECTOR2, "new_pos")));
+   
+	ClassDB::bind_method(D_METHOD("OnSprite2DPositionChanged","node","new_pos"), &GDExample::OnSprite2DPositionChanged);
+
 }
 
 GDExample::GDExample() {
 	// Initialize any variables here.
 	time_passed = 0.0;
-	time_emit = 0.0;
-	amplitude = 10.0;
-	speed = 1.0;
+	time_emit   = 0.0;
+	amplitude   = 10.0;
+	speed       = 1.0;
 }
 
 GDExample::~GDExample() {
 	// Add your cleanup here.
+}
+
+void GDExample::_ready()
+{
+	Node * sprite2DPlayers = get_node<Node>("/root/Main/Sprite2D");
+	if(sprite2DPlayers!=nullptr)
+	{
+	 UtilityFunctions::print("parent_found: " + sprite2DPlayers->get_name());
+	 sprite2DPlayers->connect("position_changed", Callable(this, "OnSprite2DPositionChanged"));
+	}
 }
 
 void GDExample::_process(double delta) {
@@ -60,4 +74,9 @@ void GDExample::set_speed(const double p_speed) {
 
 double GDExample::get_speed() const {
 	return speed;
+}
+
+void GDExample::OnSprite2DPositionChanged(Object *node,Vector2 new_pos)
+{
+  UtilityFunctions::print(node->to_string(), " (",new_pos.x ,", " , new_pos.y,")");	
 }
