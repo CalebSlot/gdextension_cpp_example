@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2u8dw5fk6g03"]
+
+[ext_resource type="Texture2D" uid="uid://bensrro33fytq" path="res://icon.svg" id="1_diqww"]
+[ext_resource type="Script" path="res://Sprite2D.cs" id="2_k0y8h"]
+
+[node name="Main" type="Node"]
+
+[node name="GDExample" type="GDExample" parent="."]
+speed = 5.38
+position = Vector2(19.8112, 7.55777)
+texture = ExtResource("1_diqww")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(332, 106)
+texture = ExtResource("1_diqww")
+script = ExtResource("2_k0y8h")
+
+[connection signal="position_changed" from="GDExample" to="Sprite2D" method="OnGDExamplePositionChanged"]
